@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Alert, Modal , Button } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { TextInput } from 'react-native-gesture-handler';
+import { AntDesign } from '@expo/vector-icons';
+
  
 export default class TableCompnent extends Component {
   constructor(props) {
@@ -12,10 +17,11 @@ export default class TableCompnent extends Component {
         ['a', 'b', 'c', 'd'],
         ['1', '2', '3', '4'],
         ['a', 'b', 'c', 'd']
-      ]
+      ],
+      show : false
     }
   }
- 
+
   _alertIndex(index) {
     Alert.alert(`This is row ${index + 1}`);
   }
@@ -23,11 +29,41 @@ export default class TableCompnent extends Component {
   render() {
     const state = this.state;
     const element = (data, index) => (
-      <TouchableOpacity onPress={() => this._alertIndex(index)}>
-        <View style={styles.btn}>
-          <Text style={styles.btnText}>button</Text>
+    
+  <View style={{ flexDirection : 'row'}}>
+    <TouchableOpacity onPress={() => { this.setState( { show : true} )  }}>
+        <View style={{ marginRight : 5}}>
+        <Entypo name="export" size={24} color="black" />
         </View>
-      </TouchableOpacity>
+    </TouchableOpacity>
+
+    <TouchableOpacity onPress={() => this._alertIndex(index)}>
+        <View style={{ marginLeft : 15}}>
+        <MaterialIcons name="delete" size={24} color="black" />
+        </View>
+     </TouchableOpacity>
+
+     <Modal visible={this.state.show} transparent={true}>
+       <View style={{ flex : 1.2, justifyContent: 'center',
+                 alignItems: 'center'}}>
+      
+     <TouchableOpacity onPress = { () => this.setState({show : false}) } >
+      <AntDesign name="closecircle" size={24} color="black" />
+     </TouchableOpacity>
+      <View style={{backgroundColor : '#DDDDDD' ,flex :0.55 , width : 350 ,justifyContent: 'center' ,alignItems: 'center', borderRadius : 15}}>
+               
+             <TextInput style={styles.input} placeholder='User Name'/>
+             <TextInput style={styles.input} placeholder='User Name'/>
+             <TextInput style={styles.input} placeholder='User Name'/>
+           
+         </View>
+         <View style={{ marginLeft : 180 , marginTop : -20}}>
+              <Button  title="Update Book" color='coral' onPress= { () => console.log('hello')} ></Button> 
+           </View> 
+       </View>
+     </Modal>
+
+     </View> 
     );
  
     return (
@@ -56,6 +92,19 @@ const styles = StyleSheet.create({
   head: { height: 40, backgroundColor: '#808B97' },
   text: { margin: 6 },
   row: { flexDirection: 'row', backgroundColor: '#FFF1C1' },
-  btn: { width: 58, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2 },
-  btnText: { textAlign: 'center', color: '#fff' }
+  btn: { width: 43, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2 ,margin:2},
+  btnText: { textAlign: 'center', color: '#fff' },
+  input : {
+    marginBottom :10,
+    padding :16,
+    width : 340,
+    marginTop : 20,
+    borderWidth :1,
+    borderRadius : 10,
+    borderColor : '#bbb',
+    borderStyle : 'dashed',
+    flexDirection : 'row'
+   
+    },
+
 });
